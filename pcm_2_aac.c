@@ -187,13 +187,15 @@ int main(int argc, char **argv){
         exit(1);
     }
 
+    int data_size = av_samples_get_buffer_size(NULL, codecContext->channels, frame->nb_samples, frame->format, 0);
+
     //4.准备输出文件
     fileOut= fopen(argv[2],"w+");
     //下面开始编码
     while(1){
         //读一帧数据出来
         //frame->pts = 1;
-        readSize = fread(frame->data[0], 1,1024*2,fileIn);
+        readSize = fread(frame->data[0], 1, data_size,fileIn);
         if(readSize == 0){
             fprintf(stdout,"end of file\n");
             frameCount++;
